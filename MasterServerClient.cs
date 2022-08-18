@@ -85,7 +85,7 @@ namespace PDMPRelay
                         }
                         catch (JsonException e)
                         {
-                            Console.WriteLine("{0}", e.ToString());
+                            Program.WriteLine("{0}", e.ToString());
                             continue;
                         }
                     }
@@ -94,13 +94,13 @@ namespace PDMPRelay
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}", e.ToString());
+                Program.WriteLine("{0}", e.ToString());
             }
             finally
             {
                 socket.Close();
             }
-            Console.WriteLine("client socket closed");
+            Program.WriteLine("client socket closed");
         }
 
         private static void SendServers(TextWriter writer)
@@ -130,7 +130,7 @@ namespace PDMPRelay
             writer.WriteLine(result);
             writer.Flush();
             serverInfo.clients.Enqueue(port);
-            Console.WriteLine("opened relay on port {0} for server {1}", port, serverInfo.id);
+            Program.WriteLine("opened relay on port {0} for server {1}", port, serverInfo.id);
             Thread thread = new Thread(new ParameterizedThreadStart(RelayThread.RelayFunc));
             thread.Start(listener); 
         }
@@ -148,7 +148,7 @@ namespace PDMPRelay
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
             TcpListener tcp_listener = new TcpListener(localEndPoint);
             tcp_listener.Start();
-            Console.WriteLine("started client listener on adress {0}", tcp_listener.LocalEndpoint.ToString());
+            Program.WriteLine("started client listener on adress {0}", tcp_listener.LocalEndpoint.ToString());
             try
             {
                 while (true)
@@ -156,7 +156,7 @@ namespace PDMPRelay
                     TcpClient client_socket = tcp_listener.AcceptTcpClient();
                     client_socket.SetKeepAlive();
                     Thread thread = new Thread(new ParameterizedThreadStart(ClientThreadFunc));
-                    Console.WriteLine("connected client: {0}.", client_socket.Client.RemoteEndPoint.ToString());
+                    Program.WriteLine("connected client: {0}.", client_socket.Client.RemoteEndPoint.ToString());
                     thread.Start(client_socket);
                 }
             }
@@ -164,7 +164,7 @@ namespace PDMPRelay
             finally
             {
                 tcp_listener.Stop();
-                Console.WriteLine("stopped client listener");
+                Program.WriteLine("stopped client listener");
                 Environment.Exit(1);
             }
         }

@@ -40,7 +40,7 @@ namespace PDMPRelay
                     Thread.Sleep(delay_time);
                     if (!accept.IsCompleted)
                     {
-                        Console.WriteLine("closed relay {0}. Nobody connected", endpoint);
+                        Program.WriteLine("closed relay {0}. Nobody connected", endpoint);
                         return;
                     }
                     using Socket handler1 = listener.EndAccept(accept);
@@ -49,10 +49,10 @@ namespace PDMPRelay
                     if (!accept.IsCompleted)
                     {
                         handler1.Close();
-                        Console.WriteLine("closed relay {0}. Only one connected", endpoint);
+                        Program.WriteLine("closed relay {0}. Only one connected", endpoint);
                         return;
                     }
-                    Console.WriteLine("Both clients connected to relay {0}. Starting relaying", endpoint);
+                    Program.WriteLine("Both clients connected to relay {0}. Starting relaying", endpoint);
                     using Socket handler2 = listener.EndAccept(accept);
                     byte[] buff = new byte[BUFF_SIZE];
                     int count = 0;
@@ -80,12 +80,12 @@ namespace PDMPRelay
                         handler1.Close();
                         handler2.Close();
                     }
-                    Console.WriteLine("closed relay {0}", endpoint);
+                    Program.WriteLine("closed relay {0}", endpoint);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("closed relay {0}. Exception: {1}", endpoint, e.ToString());
+                Program.WriteLine("closed relay {0}. Exception: {1}", endpoint, e.ToString());
             }
         }
     }

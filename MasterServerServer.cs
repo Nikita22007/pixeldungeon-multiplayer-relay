@@ -119,14 +119,14 @@ namespace PDMPRelay
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}", e.ToString());
+                Program.WriteLine("{0}", e.ToString());
             }
             finally
             {
                 _ = MasterServer.servers.TryRemove(info.id, out _);
                 socket.Close();
             }
-            Console.WriteLine("server socket closed");
+            Program.WriteLine("server socket closed");
 
         }
         public static void ServerListener(object port_obj)
@@ -135,7 +135,7 @@ namespace PDMPRelay
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
             TcpListener tcp_listener = new TcpListener(localEndPoint);
             tcp_listener.Start();
-            Console.WriteLine("started server listener on adress {0}", tcp_listener.LocalEndpoint.ToString());
+            Program.WriteLine("started server listener on adress {0}", tcp_listener.LocalEndpoint.ToString());
             try
             {
                 int new_server_id = 1;
@@ -153,17 +153,17 @@ namespace PDMPRelay
 
                     MasterServer.servers.TryAdd(new_server_id, info);
                     thread.Start(info);
-                    Console.WriteLine("connected server: {0}. id: {1}", server_socket.Client.RemoteEndPoint.ToString(), new_server_id);
+                    Program.WriteLine("connected server: {0}. id: {1}", server_socket.Client.RemoteEndPoint.ToString(), new_server_id);
                     new_server_id += 1;
                 }
             }
             catch (Exception e) {
-                Console.WriteLine("server listener exception: {0}", e.ToString());
+                Program.WriteLine("server listener exception: {0}", e.ToString());
             }
             finally
             {
                 tcp_listener.Stop();
-                Console.WriteLine("stopped server listener");
+                Program.WriteLine("stopped server listener");
                 Environment.Exit(1);
             }
         }

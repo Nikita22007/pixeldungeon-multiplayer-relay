@@ -7,6 +7,12 @@ namespace PDMPRelay
 {
     class Program
     {
+
+        public static void WriteLine(String Text, params object[] args)
+        {
+            System.Console.Write("[{0}] ", DateTime.Now.ToString("MM/dd/yy H:mm:ss"));
+            System.Console.WriteLine(Text, args);
+        }
         static void Main(string[] args)
         {
             if (!File.Exists("delay_time.txt")) {
@@ -43,7 +49,7 @@ namespace PDMPRelay
                     z.Start(int.Parse(port));
                 }
             }
-            System.Console.WriteLine("Write any char to stop");
+            Program.WriteLine("Write any char to stop");
             System.Console.ReadLine();
             Environment.Exit(0);
         }
